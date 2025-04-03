@@ -1,19 +1,17 @@
+import db from '../db/tweet';
+
 class TweetController {
-    private tweetHttpHandler: TweetHttpHandler;
+    private db: db;
 
     constructor() {
-        this.tweetHttpHandler = new TweetHttpHandler();
+        this.db = new db();
     }
 
-    async getTweets(request: Request, response: Response, next: NextFunction) {
-        await this.tweetHttpHandler.getTweets(request, response, next);
-    }
-
-    async createTweet(request: Request, response: Response, next: NextFunction) {
-        await this.tweetHttpHandler.createTweet(request, response, next);
-    }
-
-    async deleteTweet(request: Request, response: Response, next: NextFunction) {
-        await this.tweetHttpHandler.deleteTweet(request, response, next);
+    async getAllTweets(): Promise<number[]> {
+        const tweets = await this.db.getAllTweets();
+        return tweets.filter(tweet => tweet % 2 === 0); 
     }
 }
+
+export default TweetController;
+
